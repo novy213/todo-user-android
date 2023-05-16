@@ -61,4 +61,11 @@ class Login : AppCompatActivity() {
         setResult(resultCode, resultIntent)
         finish()
     }
+    fun Register(v:View){
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+    }
+    fun Quit(v:View){
+        finishAffinity()
+    }
 }

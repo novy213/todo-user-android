@@ -94,7 +94,11 @@ class TaskActivity : AppCompatActivity(), BottomSheetListener {
                 Log.d("Error   ", "onFailure: "+t.message)
             }
         })
-        this.finish()
+        val resultIntent = Intent()
+        val resultCode = RESULT_OK
+        resultIntent.putExtra("key", "wartość")
+        setResult(resultCode, resultIntent)
+        finish()
     }
     fun getTasks() {
         val retrofitBuilder = Retrofit.Builder()
@@ -113,6 +117,10 @@ class TaskActivity : AppCompatActivity(), BottomSheetListener {
                 if(!responseBody.error){
                     setTasks()
                 }
+                else {
+                    val listView = findViewById<ListView>(R.id.tasksListView)
+                    listView.adapter = null
+                }
             }
 
             override fun onFailure(call: Call<Tasks?>, t: Throwable) {
@@ -125,7 +133,9 @@ class TaskActivity : AppCompatActivity(), BottomSheetListener {
         val tasksToList = mutableListOf<String>()
         var i=1;
         for (task in tasks!!) {
-            tasksToList.add(i.toString() + ". " + task.description);
+            var done = ""
+            if(task.done==1) done = " : done"
+            tasksToList.add(i.toString() + ". " + task.description + done);
             i++
         }
         list.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tasksToList)

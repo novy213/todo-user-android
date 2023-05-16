@@ -36,4 +36,6 @@ interface ApiInterface {
     fun editTask(@Header("Authorization") authToken: String,@Path("task_id") task_id: Int, @Body body:EditTaskBody) : Call<APIResponse>
     @POST("todo/project/{task_id}")
     fun markTask(@Header("Authorization") authToken: String,@Path("task_id") task_id: Int, @Body body:MarkTaskBody) : Call<APIResponse>
+    @POST("todo/register")
+    fun register(@Body body:RegisterBody) : Call<APIResponse>
 }

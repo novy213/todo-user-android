@@ -1,6 +1,7 @@
 package com.example.todo
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -62,71 +63,75 @@ class MainActivity : AppCompatActivity(), BottomSheetListener {
          ) {
              try {
                  val responseBody = response.body()!!
-                 projects = responseBody.projects;
-                 SetProjects()
+                 if(responseBody.error){
+                     val listView = findViewById<ListView>(R.id.projectsListView)
+                     listView.adapter = null
+                 }
+                 else {
+                     projects = responseBody.projects;
+                     SetProjects()
+                 }
              }catch(ex:Exception){}
          }
          override fun onFailure(call: Call<Projects?>, t: Throwable) {
              Log.d("Error", "onFailure: "+t.message)
          }
      })
+
     }
     private fun SetProjects(){
-     val list = findViewById<ListView>(R.id.projectsListView);
-     val projectsToList = mutableListOf<String>()
-     var i=1;
-     for(project in projects!!){
+        val list = findViewById<ListView>(R.id.projectsListView);
+        val projectsToList = mutableListOf<String>()
+        var i=1;
+        for(project in projects!!){
          projectsToList.add(i.toString() +". "+ project.project_name);
          i++
-     }
-     list.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,projectsToList)
-      list.setOnItemClickListener { parent, view, position, id ->
+        }
+        list.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,projectsToList)
+        list.setOnItemClickListener { parent, view, position, id ->
          val project_id = projects!![position].id.toString()
          val intent = Intent(this, TaskActivity::class.java).also {
              it.putExtra("EXTRA_PROJECT_ID", project_id)
              startActivityForResult(it, 0)
          }
-     }
+        }
     }
     fun Logout_click(v:View){
-     val retrofitBuilder = Retrofit.Builder()
-         .addConverterFactory(GsonConverterFactory.create())
-         .baseUrl(BASE_URL)
-         .build()
-         .create(ApiInterface::class.java)
-     val retrofitData = retrofitBuilder.logout("Bearer " + BEARER)
-     retrofitData.enqueue(object : Callback<APIResponse?> {
-         override fun onResponse(
-             call: Call<APIResponse?>,
-             response: Response<APIResponse?>
-         ) {
-            BEARER = "";
-            user_id=0
-            val preferences = getSharedPreferences("Token", MODE_PRIVATE)
-            val editor = preferences.edit()
-            editor.putString("token", "")
-            editor.putInt("user_id", 0)
-            editor.apply()
-             binding.projectsListView.adapter = null
-         }
+         val retrofitBuilder = Retrofit.Builder()
+             .addConverterFactory(GsonConverterFactory.create())
+             .baseUrl(BASE_URL)
+             .build()
+             .create(ApiInterface::class.java)
+         val retrofitData = retrofitBuilder.logout("Bearer " + BEARER)
+         retrofitData.enqueue(object : Callback<APIResponse?> {
+             override fun onResponse(
+                 call: Call<APIResponse?>,
+                 response: Response<APIResponse?>
+             ) {
+                BEARER = "";
+                user_id=0
+                val preferences = getSharedPreferences("Token", MODE_PRIVATE)
+                val editor = preferences.edit()
+                editor.putString("token", "")
+                editor.putInt("user_id", 0)
+                editor.apply()
+                 binding.projectsListView.adapter = null
+             }
 
-         override fun onFailure(call: Call<APIResponse?>, t: Throwable) {
-             BEARER = "";
-             user_id=0
-             val preferences = getSharedPreferences("Token", MODE_PRIVATE)
-             val editor = preferences.edit()
-             editor.putString("token", "")
-             editor.apply()
-         }
-     })
-     launchLogin()
+             override fun onFailure(call: Call<APIResponse?>, t: Throwable) {
+                 BEARER = "";
+                 user_id=0
+                 val preferences = getSharedPreferences("Token", MODE_PRIVATE)
+                 val editor = preferences.edit()
+                 editor.putString("token", "")
+                 editor.apply()
+             }
+         })
+         launchLogin()
     }
     fun launchLogin(){
         val intent2 = Intent(this, Login::class.java)
         startActivityForResult(intent2,1)
-    }
-    public fun Refresh_click(v:View){
-        getProjects()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
