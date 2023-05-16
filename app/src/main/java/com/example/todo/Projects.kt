@@ -1,7 +1,6 @@
 package com.example.todo
 
 data class Projects(
-    val error: Boolean,
-    val message: String,
-    val projects: List<Project>
-)
+    val apiResponse: APIResponse,
+    val projects: List<Project>?
+)  : APIResponse(apiResponse.error,apiResponse.message)

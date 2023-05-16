@@ -10,6 +10,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="Logout_click"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +20,10 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/CreateNewProjectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="CreateProject_click"
         android:text="Create new project"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +34,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="366dp"
-        android:layout_height="634dp"
+        android:layout_width="350dp"
+        android:layout_height="600dp"
         android:layout_marginTop="70dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,6 +46,21 @@
         <ListView
             android:id="@+id/projectsListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+        </ListView>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="44dp"
+        android:layout_height="39dp"
+        android:onClick="Refresh_click"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 </androidx.constraintlayout.widget.ConstraintLayout>
