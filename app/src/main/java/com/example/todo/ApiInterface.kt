@@ -30,4 +30,10 @@ interface ApiInterface {
     fun renameProject(@Header("Authorization") authToken: String , @Path("project_id") project_id: Int, @Body rename:RenameProjectBody) : Call<APIResponse>
     @POST("todo/{project_id}")
     fun addTask(@Header("Authorization") authToken: String , @Path("project_id") project_id: Int, @Body add:AddTaskBody) : Call<APIResponse>
+    @DELETE("todo/project/{task_id}")
+    fun removeTask(@Header("Authorization") authToken: String,@Path("task_id") task_id: Int) : Call<APIResponse>
+    @PUT("todo/project/{task_id}")
+    fun editTask(@Header("Authorization") authToken: String,@Path("task_id") task_id: Int, @Body body:EditTaskBody) : Call<APIResponse>
+    @POST("todo/project/{task_id}")
+    fun markTask(@Header("Authorization") authToken: String,@Path("task_id") task_id: Int, @Body body:MarkTaskBody) : Call<APIResponse>
 }

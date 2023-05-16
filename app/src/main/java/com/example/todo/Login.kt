@@ -2,6 +2,7 @@ package com.example.todo
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -45,12 +46,19 @@ class Login : AppCompatActivity() {
                     BEARER = responseBody.token;
                     user_id = responseBody.userId;
                 }
+                back()
             }
 
             override fun onFailure(call: Call<UserLogin?>, t: Throwable) {
                 Log.d("Error", "onFailure: "+t.message)
             }
         })
-        this.finish()
+    }
+    private fun back(){
+        val resultIntent = Intent()
+        val resultCode = RESULT_OK
+        resultIntent.putExtra("key", "wartość")
+        setResult(resultCode, resultIntent)
+        finish()
     }
 }

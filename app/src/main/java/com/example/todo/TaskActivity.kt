@@ -1,5 +1,6 @@
 package com.example.todo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,10 +20,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 var tasks:List<Task>? = null
+lateinit var currentTask:Task;
 private lateinit var renameProjectModel: RenameProjectModel
 var project_id = 0;
 
-class TaskActivity : AppCompatActivity() {
+class TaskActivity : AppCompatActivity(), BottomSheetListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
@@ -31,6 +33,11 @@ class TaskActivity : AppCompatActivity() {
         project_id = intent.getStringExtra("EXTRA_PROJECT_ID")!!.toInt()
         renameProjectModel = ViewModelProvider(this).get(RenameProjectModel::class.java)
         popupMenu.menuInflater.inflate(R.menu.project_menu_item, popupMenu.menu)
+        val tasksListView = findViewById<ListView>(R.id.tasksListView)
+        tasksListView.setOnItemClickListener { adapterView, view, i, l ->
+            currentTask = tasks!![i]
+            ManageTask().show(supportFragmentManager, "ManageTaskTag")
+        }
         popupMenu.setOnMenuItemClickListener { menuItem->
             val id = menuItem.itemId
             if(id==R.id.item_delete){
@@ -123,9 +130,16 @@ class TaskActivity : AppCompatActivity() {
         }
         list.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,tasksToList)
     }
+    override fun onBottomSheetClosed() {
+        getTasks()
+    }
 
     fun Back_click(v:View){
-        this.finish()
+        val resultIntent = Intent()
+        val resultCode = RESULT_OK
+        resultIntent.putExtra("key", "wartość")
+        setResult(resultCode, resultIntent)
+        finish()
     }
     fun AddTask_click(v:View){
         AddTask().show(supportFragmentManager, "AddTaskTag")

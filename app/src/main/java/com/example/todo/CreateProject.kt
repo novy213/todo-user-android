@@ -1,5 +1,7 @@
 package com.example.todo
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -62,5 +64,19 @@ class CreateProject : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCreateProjectBinding.inflate(inflater,container,false)
         return binding.root
+    }
+    private lateinit var bottomSheetListener: BottomSheetListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            bottomSheetListener = context as BottomSheetListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement BottomSheetListener")
+        }
+    }
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        bottomSheetListener.onBottomSheetClosed()
     }
 }

@@ -22,12 +22,14 @@ class AddTask : BottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentAddTaskBinding
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
         binding.AddTaskButton.setOnClickListener {
             AddTaskFunction()
         }
+
     }
 
     private fun AddTaskFunction() {
@@ -44,24 +46,34 @@ class AddTask : BottomSheetDialogFragment() {
                 call: Call<APIResponse?>,
                 response: Response<APIResponse?>
             ) {
-                /*val res = response.body()
-                al.setMessage(res!!.error.toString())
-                al.setNegativeButton("Ok", DialogInterface.OnClickListener { dialogInterface, i ->
-                    dialog!!.dismiss()
-                })
-                val a = al.create()
-                a.show()*/
+                dismiss()
             }
 
             override fun onFailure(call: Call<APIResponse?>, t: Throwable) {
                 Log.d("Error   ", "onFailure: "+t.message)
             }
         })
-        dismiss()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAddTaskBinding.inflate(inflater,container,false)
         return binding.root
     }
+    private lateinit var bottomSheetListener: BottomSheetListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            bottomSheetListener = context as BottomSheetListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement BottomSheetListener")
+        }
+    }
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        bottomSheetListener.onBottomSheetClosed()
+    }
+}
+interface BottomSheetListener {
+    fun onBottomSheetClosed()
 }
