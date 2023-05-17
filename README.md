@@ -9,5 +9,6 @@ Functionalities:
 5. Adding tasks to projects
 6. Deleting tasks from projects
 7. Changing the content of tasks in the project
-8. Marking the task as done <br>
-Download [Apk]
+8. Marking the task as done 
+
+Download [Apk](https://www.dropbox.com/s/g03cuf35c4yxdeo/app-debug.apk?dl=0)
