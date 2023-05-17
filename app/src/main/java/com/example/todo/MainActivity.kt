@@ -16,7 +16,7 @@ import com.example.todo.databinding.ActivityMainBinding
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "http:65.21.6.59/basic/web/api/"
+const val BASE_URL = "https://api.jakubsolarek.pl/api/"
 var BEARER = ""
 var user_id:Int = 0;
 var projects:List<Project>? = null
