@@ -1,3 +1,4 @@
+# [Main specification](https://github.com/novy213/todo)
 # Specification
 Application created in Android Studio using api queries configured on the [server](https://github.com/novy213/todo-server). Project [specification](https://github.com/novy213/todo)
 ## Functions:
