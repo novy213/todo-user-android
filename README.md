@@ -11,4 +11,4 @@ Application created in Android Studio using api queries configured on the [serve
 7. Changing the content of tasks in the project
 8. Marking the task as done 
 
-Download [Apk](https://www.dropbox.com/s/43n3lk81b3c5uz0/app-release.apk?dl=0)
+Download [Apk](https://www.dropbox.com/s/rgryq3md8vc3cuc/app-debug.apk?dl=0)
